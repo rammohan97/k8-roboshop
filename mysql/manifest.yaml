@@ -28,12 +28,12 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 10
+            initialDelaySeconds: 20
             periodSeconds: 10
 
 --- # Service for MySQL
