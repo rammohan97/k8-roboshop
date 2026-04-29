@@ -51,10 +51,10 @@ spec:
               mountPath: /etc/mysql/conf.d/my.cnf
               subPath: my.cnf
 
-    volumes:
-      - name: mysql-config
-        configMap:
-          name: mysql-config
+      volumes:
+        - name: mysql-config
+          configMap:
+            name: mysql-config
 
 
 --- # Service for MySQL
