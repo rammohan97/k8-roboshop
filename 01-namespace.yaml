@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+meatadata:
+  name: roboshop
+  labels:
+    env: dev
+    project: roboshop
