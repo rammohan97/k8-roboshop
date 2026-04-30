@@ -1,0 +1,63 @@
+--- #frontend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: roboshop
+  labels:
+    project: roboshop
+    component: frontend
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      component: frontend
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        component: frontend
+        tier: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: joindevops/frontend:v1
+        imagePullPolicy: Always
+        ports:
+        - name: liveness-port
+          containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 10
+
+--- ## Servicce
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: roboshop
+  labels:
+    project: roboshop
+    component: frontend
+    tier: frontend
+spec:
+  selector:
+    project: roboshop
+    component: frontend
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80       # Service port
+      targetPort: 80 # Container port
