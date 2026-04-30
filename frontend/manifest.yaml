@@ -104,14 +104,14 @@ spec:
           httpGet:
             path: /
             port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 10
+          failureThreshold: 20
+          periodSeconds: 15
         livenessProbe:
           httpGet:
             path: /
             port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 10
+          failureThreshold: 20
+          periodSeconds: 15
         volumeMounts:
           - name: nginx-config
             mountPath: /etc/nginx/nginx.conf
