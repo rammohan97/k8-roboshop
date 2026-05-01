@@ -30,3 +30,41 @@ spec:
   selector:
     app: nginx
     purpose: stateful-demo
+
+--- # create a statefulset
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+      purpose: stateful-demo
+  serviceName: nginx-headless  # this is the headless service name that created above.
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+        purpose: stateful-demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - name: web
+          containerPort: 80
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  # This is PVC
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: roboshop-ebs # this is the storage class name that created in previous step.
+      resources:
+        requests:
+          storage: 1Gi
