@@ -1,0 +1,32 @@
+--- # create a headless service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless
+  labels:
+    app: nginx
+    purpose: stateful-demo
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    name: web
+  selector:
+    app: nginx
+    purpose: stateful-demo
+
+--- # create a normal service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    purpose: stateful-demo
+spec:
+  ports:
+  - port: 80
+    name: web
+  selector:
+    app: nginx
+    purpose: stateful-demo
