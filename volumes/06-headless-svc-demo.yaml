@@ -42,7 +42,7 @@ kind: Service
 metadata:
   name: nginx-headless-svc-demo
 spec:
-  # If a service clusterIP is None it is called headless service. It does not get a cluster IP and does not load balance traffic. Instead, it returns the IP addresses of the associated pods directly to the client, allowing for direct communication with the individual pods.
+  # If a service clusterIP is None it is called headless service.
   clusterIP: None       
   selector:
     purpose: headless-svc-demo
