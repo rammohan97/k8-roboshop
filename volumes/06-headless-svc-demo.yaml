@@ -35,3 +35,19 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+
+--- # Create a headless service of the deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  # If a service clusterIP is None it is called headless service. It does not get a cluster IP and does not load balance traffic. Instead, it returns the IP addresses of the associated pods directly to the client, allowing for direct communication with the individual pods.
+  clusterIP: None       
+  selector:
+    purpose: headless-svc-demo
+    project: roboshop
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
