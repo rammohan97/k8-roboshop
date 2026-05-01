@@ -1,0 +1,49 @@
+--- #Create pvc for EBS dynamic provisioning
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-dynamic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: roboshop-ebs
+  resources:
+    requests:
+      storage: 5Gi
+
+--- # Cerate a Pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    purpose: ebs-dynamic
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: nginx-vol
+          mountPath: /usr/share/nginx/html
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1c
+  volumes:
+    - name: nginx-vol
+      persistentVolumeClaim:
+        claimName: ebs-dynamic
+
+--- #Create a service to access the nginx pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ebs-dynamic
+spec:
+  type: LoadBalancer
+  selector:
+    purpose: ebs-dynamic
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
