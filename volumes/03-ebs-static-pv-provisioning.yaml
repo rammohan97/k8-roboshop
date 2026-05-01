@@ -15,3 +15,18 @@ spec:
     driver: ebs.csi.aws.com
     fsType: ext4
     volumeHandle: vol-0d267af8f7bbba7aa
+
+
+--- # Create a PVC to use the PV
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-static
+spec:
+  storageClassName: "" # this is important, if you don't specify storage class name, then it will bind to PV which has empty storage class name 
+  volumeName: ebs-static
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
