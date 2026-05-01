@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: nginx
 spec:
-  slector:
+  selector:
     purpose: headless-svc-demo
     project: roboshop
   ports:
